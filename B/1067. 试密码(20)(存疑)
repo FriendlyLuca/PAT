@@ -67,3 +67,36 @@ int main()
 }
 
 //报错结果错误。。。
+
+
+方法2 ：
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+	char pw[21],pw1[21];
+	gets(pw);
+	int num;
+	scanf("%d",&num);
+	int i=0;
+	do
+	{
+	gets(pw1);
+	if (strcmp(pw1,"#"));
+	else
+		return 0;
+	if (strcmp(pw,pw1))
+		printf("Wrong password: %s\n",pw1);
+	else
+		break;
+	i++;
+	}while (i<num);
+
+	if (i==num)
+		printf("Account locked");
+	else
+		printf("Welcome in");
+	return 0;
+		
+}
+//结果全部错误，我感觉输入一个错误密码之后打印wrong password后就直接break 了。。很奇怪。
