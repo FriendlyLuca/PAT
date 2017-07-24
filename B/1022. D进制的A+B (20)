@@ -1,0 +1,65 @@
+
+/*1022. D进制的A+B (20)
+时间限制 
+100 ms
+内存限制 
+65536 kB
+代码长度限制 
+8000 B
+判题程序 
+Standard 
+作者 
+CHEN, Yue
+输入两个非负10进制整数A和B(<=230-1)，输出A+B的D (1 < D <= 10)进制数。 
+输入格式： 
+输入在一行中依次给出3个整数A、B和D。 
+输出格式： 
+输出A+B的D进制数。 
+输入样例：
+123 456 8
+输出样例：
+1103
+*/
+/*方法一：（显示两个结果有错，没看出错误。这个方法是从根本上算出进制后的数）
+#include<stdio.h>
+int main()
+{
+	int a,b,d,sum,k;
+	long int result=0;
+	k=1;
+	scanf("%d %d %d",&a,&b,&d);
+	sum=a+b;
+	do{	
+		result=(sum%d)*k+result;
+		k*=10;
+		sum=sum/d;
+		if (sum<d)
+			result+=k*sum;
+	}while(sum/d!=0);
+	printf("%ld",result);
+
+
+
+}*/
+//方法二如下：这个方法是单独算出每一位转换后的数。方法不易出错，需牢牢掌握
+#include<stdio.h>
+int main()
+{
+	int a,b,d;
+	scanf("%d %d %d",&a,&b,&d);
+	int sum=a+b;
+	int ans[31]={0};
+	int num=0;
+	do{
+		ans[num++]=sum%d;
+		sum/=d;
+	
+	}while(sum!=0);//由于这里sum已经是和再整除d了且已经被取过余数了，所以直接判断若sum<d则停止循环
+	for(int i=1;i<=num;i++)//这里要从num-1项开始输出。因为得到最高位时括号里num又++了
+	{
+		printf("%d",ans[num-i]);
+	}
+
+
+
+}
