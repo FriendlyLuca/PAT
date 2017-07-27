@@ -1,0 +1,97 @@
+/*
+1025. PAT Ranking (25)
+时间限制 
+200 ms
+内存限制 
+65536 kB
+代码长度限制 
+16000 B
+判题程序 
+Standard 
+作者 
+CHEN, Yue
+Programming Ability Test (PAT) is organized by the College of Computer Science and Technology of Zhejiang University. Each test is supposed to run simultaneously in several places, and the ranklists will be merged immediately after the test. Now it is your job to write a program to correctly merge all the ranklists and generate the final rank.
+Input Specification: 
+Each input file contains one test case. For each case, the first line contains a positive number N (<=100), the number of test locations. Then N ranklists follow, each starts with a line containing a positive integer K (<=300), the number of testees, and then K lines containing the registration number (a 13-digit number) and the total score of each testee. All the numbers in a line are separated by a space.
+Output Specification: 
+For each test case, first print in one line the total number of testees. Then print the final ranklist in the following format:
+registration_number final_rank location_number local_rank
+The locations are numbered from 1 to N. The output must be sorted in nondecreasing order of the final ranks. The testees with the same score must have the same rank, and the output must be sorted in nondecreasing order of their registration numbers.
+Sample Input:
+2
+5
+1234567890001 95
+1234567890005 100
+1234567890003 95
+1234567890002 77
+1234567890004 85
+4
+1234567890013 65
+1234567890011 25
+1234567890014 100
+1234567890012 85
+Sample Output:
+9
+1234567890005 1 1 1
+1234567890014 1 2 1
+1234567890001 3 1 2
+1234567890003 3 1 2
+1234567890004 5 1 4
+1234567890012 5 2 2
+1234567890002 7 1 5
+1234567890013 8 2 3
+1234567890011 9 2 4
+
+提交代码 
+
+
+*/
+#include<stdio.h>
+#include<algorithm>
+#include<cstring>
+using namespace std;
+struct testee{
+		char id[14];
+		int grade;
+		int local;
+		int lorank;
+		int torank;
+	}tt[30000];
+bool cmp(testee a,testee b){
+	if (a.grade!=b.grade)
+		return a.grade>b.grade;
+	else
+		return strcmp(a.id,b.id)<0;//由于id是char类型的，不可以直接用来比较大小，必须引入string.h中的strcmp函数，需熟练掌握  
+}
+
+int main(){
+	int ln;
+	int num=0;
+	scanf("%d",&ln);
+	for (int i=1;i<=ln;i++){
+		int lng;
+		scanf("%d",&lng);
+		for (int j=0;j<lng;j++,num++){
+			scanf("%s %d",&tt[num].id,&tt[num].grade);
+			tt[num].local=i;
+		}
+		sort (tt+num-lng,tt+num,cmp);
+		for (int j=0;j<lng;j++){
+			tt[num-lng+j].lorank=j+1;
+			if (tt[num-lng+j].grade==tt[num-lng+j-1].grade)
+				tt[num-lng+j].lorank=tt[num-lng+j-1].lorank;
+		}
+
+	}
+	sort (tt,tt+num,cmp);
+	for (int i=0;i<num;i++){
+		tt[i].torank=i+1;
+		if(tt[i].grade==tt[i-1].grade)
+			tt[i].torank=tt[i-1].torank;
+	}
+	printf("%d\n",num);
+	for (int i=0;i<num;i++){
+		printf("%s %d %d %d\n",tt[i].id,tt[i].torank,tt[i].local,tt[i].lorank);
+	}
+}
+//总是扣了3分答案错误，没有检查出来
