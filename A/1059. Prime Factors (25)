@@ -1,0 +1,87 @@
+/*
+1059. Prime Factors (25)
+时间限制 
+100 ms
+内存限制 
+65536 kB
+代码长度限制 
+16000 B
+判题程序 
+Standard 
+作者 
+HE, Qinming
+Given any positive integer N, you are supposed to find all of its prime factors, and write them in the format N = p1^k1 * p2^k2 *…*pm^km.
+Input Specification: 
+Each input file contains one test case which gives a positive integer N in the range of long int.
+Output Specification: 
+Factor N in the format N = p1^k1 * p2^k2 *…*pm^km, where pi's are prime factors of N in increasing order, and the exponent ki is the number of pi -- hence when there is only one pi, ki is 1 and must NOT be printed out.
+Sample Input:
+97532468
+Sample Output:
+97532468=2^2*11*17*101*1291
+
+提交代码 
+*/
+
+#include<stdio.h>
+#include<math.h>
+bool isprime(int a){
+	if (a==1)
+		return false;
+	for (int i=2;i<=sqrt(1.0*a);i++){
+		if (a%i==0)
+			return false;
+	}
+	return true;
+}
+int biao[10000];
+void qiu(){
+	int num=0;
+	for (int i=2;num<10000;i++){
+		if (isprime(i)==true){
+			biao[num]=i;
+			num++;
+		}
+	}
+}
+struct pf{
+	int f;
+	int mi;
+}yin[10];
+int main(){
+	int n;
+	scanf("%d",&n);
+	if (n==1){
+		printf("1=1");
+		return 0;
+	}
+	int t=n;
+	qiu();
+	int num=0;
+	for (int i=0;i<sqrt(1.0*n);i++){
+		if(n%biao[i]==0){
+			yin[num].f=biao[i];
+			yin[num].mi=0;
+			while (n%biao[i]==0){
+				n=n/biao[i];
+				yin[num].mi++;
+			}
+			num++;
+		}
+	}
+	if (n!=1){
+		yin[num].f=n;
+		yin[num].mi=1;
+		num++;
+	}
+	if (yin[0].mi>1)
+		printf("%d=%d^%d",t,yin[0].f,yin[0].mi);
+	else
+		printf("%d=%d",t,yin[0].f);
+	for (int i=1;i<num;i++){
+		if (yin[i].mi>1)
+		printf("*%d^%d",yin[i].f,yin[i].mi);
+	else
+		printf("*%d",yin[i].f); 
+	}
+}
