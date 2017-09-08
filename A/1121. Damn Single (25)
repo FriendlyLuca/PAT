@@ -28,35 +28,39 @@ Sample Output:
 */
 
 #include<cstdio>
-const int maxn=40;
-int sum[maxn]={0};
+const int maxn=100010;
+int list[maxn]={-1};
+int guest[maxn]={0};
 int main(){
 	int n;
 	scanf("%d",&n);
-	int a,s=0;
+	int a1,a2,a3;
 	for (int i=0;i<n;i++){
-		scanf("%d",&a);
-		s+=a%10;
-		while (a>=10){
-			a/=10;
-			s+=a%10;
-		}
-		sum[s]=1;
-		s=0;
+		scanf("%d %d",&a1,&a2);
+		list[a1]=a2;
+		list[a2]=a1;
 	}
-	int num=0;
-	for (int i=0;i<40;i++){
-		if (sum[i])
-			num++;
+	scanf("%d",&n);
+	for (int i=0;i<n;i++){
+		scanf("%d",&a3);
+		guest[a3]++;
 	}
-	printf("%d\n",num);
-	for (int i=0;i<40;i++){
-		if (sum[i]){
-			num--;
-			if (num)
-				printf("%d ",i);
-			else
-				printf("%d",i);
+	for (int i=0;i<maxn;i++){
+		if (guest[i])
+			if (guest[list[i]]){
+				guest[i]=0;
+				guest[list[i]]=0;
+				n-=2;
+			}
+			
+	}
+	printf("%d\n",n);
+	for (int i=0;i<maxn;i++){
+		if (guest[i]){
+			printf("%05d",i);
+			n--;
+			if (n)
+				printf(" ");
 		}
 	}
 	return 0;
