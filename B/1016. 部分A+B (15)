@@ -51,3 +51,26 @@ int main()
 	printf("%d",PA+PB);
 	return 0;
 }
+
+
+
+//一年后的更简单的写法
+#include<stdio.h>
+int main(){
+	int a,da,pa,b,db,pb;
+	scanf("%d %d %d %d",&a,&da,&b,&db);
+	pa=0;
+	pb=0;
+	while(a>0){
+		if (a%10==da)
+			pa=10*pa+da;
+		a/=10;
+	}
+	while(b>0){
+		if (b%10==db)
+			pb=10*pb+db;
+		b/=10;
+	}
+	printf("%d",pa+pb);
+	return 0;
+}
