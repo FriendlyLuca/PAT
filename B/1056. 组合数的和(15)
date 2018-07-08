@@ -49,3 +49,19 @@ int main()
 	printf("%d",sum);
 
 }
+
+
+//一年后的解法
+#include<stdio.h>
+int main(){
+	int a[10];
+	scanf("%d",&a[0]);
+	for (int i=1;i<=a[0];i++)
+		scanf("%d",&a[i]);
+	int s=0;
+	for (int i=1;i<=a[0];i++){
+		s+=a[i]*11*(a[0]-1);
+	}
+	printf("%d",s);
+	return 0;
+}
