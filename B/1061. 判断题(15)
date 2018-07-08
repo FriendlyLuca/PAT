@@ -62,3 +62,24 @@ int main()
 		printf("%d\n",c[i]);
 	printf("%d\n",c[h-1]);
 }
+//一年后的做法
+#include<stdio.h>
+int main(){
+	int n,m,f;
+	int s[100],an[100],st[100];
+	scanf("%d %d",&n,&m);
+	for (int i=0;i<m;i++)
+		scanf("%d",&s[i]);
+	for (int i=0;i<m;i++)
+		scanf("%d",&an[i]);
+	for (int j=0;j<n;j++){
+		f=0;
+		for (int i=0;i<m;i++){//这里千万不能在for (int i=0,f=0;i<m;i++)否则会出错。切记不要在for内来初始条件，宁愿在for前让f=0
+			scanf("%d",&st[i]);
+			if(st[i]==an[i])
+				f+=s[i];
+		}
+		printf("%d\n",f);
+	}
+	return 0;
+}
