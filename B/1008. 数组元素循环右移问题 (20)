@@ -37,3 +37,24 @@ int main(){
 		printf(" %d",a[i]);
 	}
 }
+
+
+#include<cstdio>
+int main(){
+	int a[100],n,h;
+	scanf("%d %d",&n,&h);
+	h=h%n;
+	for (int i=0;i<n;i++){
+		scanf("%d",&a[i]);
+	}
+	for (int i=n-h;i<n;i++){
+		printf("%d ",a[i]);
+	}
+	for (int i=0;i<n-h;i++){
+		printf("%d",a[i]);
+		if (i<n-h-1){
+			printf(" ");
+		}
+	}
+	return 0;
+}
