@@ -1,0 +1,45 @@
+/*
+1009 Product of Polynomials (25)（25 分）
+This time, you are supposed to find A*B where A and B are two polynomials.
+Input Specification:
+Each input file contains one test case. Each case occupies 2 lines, and each line contains the information of a polynomial: K N1 a~N1~ N2 a~N2~ ... NK a~NK~, where K is the number of nonzero terms in the polynomial, Ni and a~Ni~ (i=1, 2, ..., K) are the exponents and coefficients, respectively. It is given that 1 <= K <= 10, 0 <= NK < ... < N2 < N1 <=1000.
+Output Specification:
+For each test case you should output the product of A and B in one line, with the same format as the input. Notice that there must be NO extra space at the end of each line. Please be accurate up to 1 decimal place.
+Sample Input
+2 1 2.4 0 3.2
+2 2 1.5 1 0.5
+Sample Output
+3 3 3.6 2 6.0 1 1.6
+*/
+
+#include<cstdio>
+int main(){
+	int k,n;
+	float a;
+	float b[1010]={0};
+	float c[2020]={0};
+	scanf("%d",&k);
+	for (int i=0;i<k;i++){
+		scanf("%d %f",&n,&a);
+		b[n]=a;
+	}
+	scanf("%d",&k);
+	for (int i=0;i<k;i++){
+		scanf("%d %f",&n,&a);
+		for (int j=0;j<1010;j++){
+			c[j+n]+=b[j]*a;//之前在这里错了，要记住多项式相乘的具体步骤
+		}
+	}
+	k=0;
+	for (int i=0;i<2010;i++){
+		if (c[i]!=0)
+			k++;
+	}
+	printf("%d",k);
+	for (int i=2010;i>=0;i--){
+		if (c[i]!=0){
+			printf(" %d %.1f",i,c[i]);
+		}
+	}
+	return 0;
+}
