@@ -1,0 +1,63 @@
+/*
+1005 Spell It Right (20)（20 分）
+Given a non-negative integer N, your task is to compute the sum of all the digits of N, and output every digit of the sum in English.
+Input Specification:
+Each input file contains one test case. Each case occupies one line which contains an N (<= 10^100^).
+Output Specification:
+For each test case, output in one line the digits of the sum in English words. There must be one space between two consecutive words, but no extra space at the end of a line.
+Sample Input:
+12345
+Sample Output:
+one five
+*/
+
+#include<cstdio>
+#include<iostream>
+#include<string>
+using namespace std;
+int main(){
+	string str;
+	cin>>str;
+	int a=0;
+	int b=0;
+	int zero=0;
+	for (int i=0;i<str.size();i++){
+		a+=str[i]-'0';
+	}
+	if (a==0)//考虑输入0的情况
+		cout<<"zero";
+	while (a>0){
+		if (a%10==0)//这一句是统计a结尾处共有多少个连续的0
+			zero++;
+		b=b*10+a%10;
+		a/=10;
+	}
+	while (b>0){
+		if (b%10==1)
+			cout<<"one";
+		if (b%10==2)
+			cout<<"two";
+		if (b%10==3)
+			cout<<"three";
+		if (b%10==4)
+			cout<<"four";
+		if (b%10==5)
+			cout<<"five";
+		if (b%10==6)
+			cout<<"six";
+		if (b%10==7)
+			cout<<"seven";
+		if (b%10==8)
+			cout<<"eight";
+		if (b%10==9)
+			cout<<"nine";
+		b/=10;
+		if (b>0)
+			cout<<" ";
+	}
+	while(zero){
+		cout<<" zero";
+		zero--;
+	}
+	return 0;
+}
