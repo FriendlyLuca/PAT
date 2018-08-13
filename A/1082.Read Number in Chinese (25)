@@ -15,7 +15,6 @@ Sample Output 2:
 yi Shi Wan ling ba Bai
 */
 
-//总是有两点格式错误。。。。。
 #include<stdio.h>
 void sc(int a){
 	if (a==1)
@@ -54,50 +53,66 @@ int main(){
 	}
 	if(z==8){
 		sc(a[8]);
-		printf(" Yi ");
+		printf(" Yi");
 	}
 	if (a[7]){
+		if (z>7)
+		printf(" ");//如果不是首位的话要加空格，这道题很容易格式错误
 		sc(a[7]);
-		printf(" Qian ");
+		printf(" Qian");
 	}else if(z>7&&(a[6]!=0||a[5]!=0||a[4]!=0)){
-		printf("ling ");
+		printf(" ling");
 	}
 	if (a[6]){
+		if (z>6)
+		printf(" ");
 		sc(a[6]);
-		printf(" Bai ");
+		printf(" Bai");
 	}else if((a[5]!=0||a[4]!=0)&&a[7]!=0){
-		printf("ling ");
+		printf(" ling");
 	}
 	if (a[5]){
+		if (z>5)
+		printf(" ");
 		sc(a[5]);
-		printf(" Shi ");
+		printf(" Shi");
 	}else if(a[6]!=0&&a[4]!=0){
-		printf("ling ");
+		printf(" ling");
 	}
 	if (a[4]){
+		if (z>4)
+		printf(" ");
 		sc(a[4]);
-		printf(" Wan ");
+		printf(" Wan");
 	}else if (a[5]+a[6]+a[7]!=0)
-		printf("Wan ");
+		printf(" Wan");
 	if (a[3]){
+		if (z>3)
+		printf(" ");
 		sc(a[3]);
-		printf(" Qian ");
+		printf(" Qian");
 	}else if(z>3&&(a[2]!=0||a[1]!=0||a[0]!=0)){
-		printf("ling ");
+		printf(" ling");
 	}
 	if (a[2]){
+		if (z>2)
+		printf(" ");
 		sc(a[2]);
-		printf(" Bai ");
+		printf(" Bai");
 	}else if((a[1]!=0||a[0]!=0)&&a[3]!=0){
-		printf("ling ");
+		printf(" ling");
 	}
 	if (a[1]){
+		if (z>1)
+			printf(" ");
 		sc(a[1]);
-		printf(" Shi ");
+		printf(" Shi");
 	}else if(a[2]!=0&&a[0]!=0){
-		printf("ling ");
+		printf(" ling");
 	}
 	if (a[0]){
+		if (z>0)
+		printf(" ");
 		sc(a[0]);
 	}
 	return 0;
