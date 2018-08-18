@@ -1,0 +1,56 @@
+/*
+1050 String Subtraction (20)（20 分）
+Given two strings S~1~ and S~2~, S = S~1~ - S~2~ is defined to be the remaining string after taking all the characters in S~2~ from S~1~. Your task is simply to calculate S~1~ - S~2~ for any given strings. However, it might not be that simple to do it fast.
+Input Specification:
+Each input file contains one test case. Each case consists of two lines which gives S~1~ and S~2~, respectively. The string lengths of both strings are no more than 10^4^. It is guaranteed that all the characters are visible ASCII codes and white space, and a new line character signals the end of a string.
+Output Specification:
+For each test case, print S~1~ - S~2~ in one line.
+Sample Input:
+They are students.
+aeiou
+Sample Output:
+Thy r stdnts.
+*/
+
+//用了两个方法，第一个是直接基于string来删除的，第二个有点hash的感觉，当然还有第三种是更hash的单个字符输出，这里就没写了
+#include<string>
+#include<iostream>
+using namespace std;
+int main(){
+	string s1,s2;
+	getline(cin,s1);
+	getline(cin,s2);//注意这里也要用getline,因为第二行也许会让你删掉空格！！！
+	for (int i=0;i<s1.size();i++){
+		for (int j=0;j<s2.size();j++){
+			if (s1[i]==s2[j]){
+				s1.erase(s1.begin()+i);
+				i--;
+				break;
+			}
+		}
+	}
+	cout<<s1;
+	return 0;
+}
+
+
+#include<string>
+#include<iostream>
+using namespace std;
+int main(){
+	string s1,s2;
+	getline(cin,s1);
+	getline(cin,s2);
+	int k[128]={0};
+	for (int i=0;i<s2.size();i++){
+		k[s2[i]]=1;
+	}
+	for (int i=0;i<s1.size();i++){
+		if (k[s1[i]]){
+			s1.erase(s1.begin()+i);
+			i--;
+		}
+	}
+	cout<<s1;
+	return 0;
+}
