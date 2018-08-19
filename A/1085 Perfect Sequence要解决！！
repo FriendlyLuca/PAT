@@ -1,0 +1,46 @@
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+int main(){
+	int n,p;
+	scanf("%d %d",&n,&p);
+	int a[100010];
+	for (int i=0;i<n;i++){
+		scanf("%d",&a[i]);
+	}
+	sort(a,a+n);
+	int max=0;
+	for(int j=0;j<n;j++){
+		int m=a[j]*p;
+		for (int i=j;i<n;i++){
+			if (a[i]>m){
+				if(max<i-j)
+				max=i-j;
+				break;
+			}
+		}
+	}
+	printf("%d",max);
+	return 0;
+}
+
+
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+int main(){
+	int n,p;
+	scanf("%d %d",&n,&p);
+	int a[100010];
+	for (int i=0;i<n;i++){
+		scanf("%d",&a[i]);
+	}
+	sort(a,a+n);
+	int max=0;
+	for(int j=0;j<n;j++){
+		long long m=a[j]*p;
+		max=upper_bound(a+j,a+n,m)-j;
+	}
+	printf("%d",max);
+	return 0;
+}
