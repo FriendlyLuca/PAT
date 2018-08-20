@@ -1,0 +1,87 @@
+/*
+1136 A Delayed Palindrome（20 分）
+Consider a positive integer N written in standard notation with k+1 digits a
+​i
+​​ as a
+​k
+​​⋯a
+​1
+​​a
+​0
+​​ with 0≤a
+​i
+​​<10 for all i and a
+​k
+​​>0. Then N is palindromic if and only if a
+​i
+​​=a
+​k−i
+​​ for all i. Zero is written 0 and is also palindromic by definition.
+Non-palindromic numbers can be paired with palindromic ones via a series of operations. First, the non-palindromic number is reversed and the result is added to the original number. If the result is not a palindromic number, this is repeated until it gives a palindromic number. Such number is called a delayed palindrome. (Quoted from https://en.wikipedia.org/wiki/Palindromic_number )
+Given any positive integer, you are supposed to find its paired palindromic number.
+Input Specification:
+Each input file contains one test case which gives a positive integer no more than 1000 digits.
+Output Specification:
+For each test case, print line by line the process of finding the palindromic number. The format of each line is the following:
+A + B = C
+where A is the original number, B is the reversed A, and C is their sum. A starts being the input number, and this process ends until C becomes a palindromic number -- in this case we print in the last line C is a palindromic number.; or if a palindromic number cannot be found in 10 iterations, print Not found in 10 iterations. instead.
+Sample Input 1:
+97152
+Sample Output 1:
+97152 + 25179 = 122331
+122331 + 133221 = 255552
+255552 is a palindromic number.
+Sample Input 2:
+196
+Sample Output 2:
+196 + 691 = 887
+887 + 788 = 1675
+1675 + 5761 = 7436
+7436 + 6347 = 13783
+13783 + 38731 = 52514
+52514 + 41525 = 94039
+94039 + 93049 = 187088
+187088 + 880781 = 1067869
+1067869 + 9687601 = 10755470
+10755470 + 07455701 = 18211171
+Not found in 10 iterations.
+*/
+
+
+#include<cstdio>
+bool isp(long long a){//題目要求是1000位的數字加減，long long也是遠遠不夠的，應該用字符串來處理，需要去瞭解大數字相加減
+	long long b=0;
+	long long n=a;
+	while(a>0){
+		b=b*10+a%10;
+		a/=10;
+	}
+	return (n==b);
+}
+long long fz(long long a){
+	long long b=0;
+	while(a>0){
+		b=b*10+a%10;
+		a/=10;
+	}
+	return b;
+}
+int main(){
+	long long a;
+	int flag=0;
+	scanf("%lld",&a);
+	for (int i=0;i<11;i++){
+		if (isp(a)){
+			flag=1;
+			break;
+		}else if(i<10){
+			printf("%lld + %lld = %lld\n",a,fz(a),a+fz(a));
+			a=a+fz(a);
+		}
+	}
+	if (isp(a))
+		printf("%lld is a palindromic number.",a);
+	else
+		printf("Not found in 10 iterations.");
+	return 0;
+}
