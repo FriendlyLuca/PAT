@@ -1,0 +1,90 @@
+/*
+1059 Prime Factors（25 分）
+Given any positive integer N, you are supposed to find all of its prime factors, and write them in the format N = p
+​1
+​​
+​k
+​1
+​​
+​​×p
+​2
+​​
+​k
+​2
+​​
+​​×⋯×p
+​m
+​​
+​k
+​m
+​​
+​​.
+Input Specification:
+Each input file contains one test case which gives a positive integer N in the range of long int.
+Output Specification:
+Factor N in the format N = p
+​1
+​​^k
+​1
+​​*p
+​2
+​​^k
+​2
+​​*…*p
+​m
+​​^k
+​m
+​​, where p
+​i
+​​'s are prime factors of N in increasing order, and the exponent k
+​i
+​​ is the number of p
+​i
+​​ -- hence when there is only one p
+​i
+​​, k
+​i
+​​ is 1 and must NOT be printed out.
+Sample Input:
+97532468
+Sample Output:
+97532468=2^2*11*17*101*1291
+*/
+
+#include<cstdio>
+#include<math.h>
+bool isp(int a){
+	int b=sqrt((double) a);
+	bool flag=true;
+	for (int i=2;i<=b;i++){
+		if (a%i==0){
+			flag=false;
+			break;
+		}
+	}
+	return flag;
+}
+int main(){
+	int a,time;
+	scanf("%d",&a);
+	printf("%d=",a);
+	for (int i=2;;i++){
+		if (isp(i)){//找质数因子这里有点超时
+			if (a%i==0){
+				time=0;
+				while(a%i==0){
+					time++;
+					a=a/i;
+				}
+				printf("%d",i);
+				if (time>1)
+					printf("^%d",time);
+				if (a!=1)
+					printf("*");
+				else
+					break;
+			}
+		}
+	}
+	return 0;
+}
