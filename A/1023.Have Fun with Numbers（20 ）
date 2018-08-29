@@ -1,0 +1,69 @@
+/*
+1023 Have Fun with Numbers（20 分）
+Notice that the number 123456789 is a 9-digit number consisting exactly the numbers from 1 to 9, with no duplication. Double it we will obtain 246913578, which happens to be another 9-digit number consisting exactly the numbers from 1 to 9, only in a different permutation. Check to see the result if we double it again!
+Now you are suppose to check if there are more numbers with this property. That is, double a given number with k digits, you are to tell if the resulting number consists of only a permutation of the digits in the original number.
+Input Specification:
+Each input contains one test case. Each case contains one positive integer with no more than 20 digits.
+Output Specification:
+For each test case, first print in a line "Yes" if doubling the input number gives a number that consists of only a permutation of the digits in the original number, or "No" if not. Then in the next line, print the doubled number.
+Sample Input:
+1234567899
+Sample Output:
+Yes
+2469135798
+*/
+
+#include<string>
+#include<string.h>//用memset记得要写string.h这个头
+#include<iostream>
+using namespace std;
+struct bign{
+	int len;
+	int d[1000];
+	bign(){
+		memset(d,0,sizeof(d));
+		len=0;
+	}
+};
+bign dou(bign a){
+	bign d;
+	for (int i=0;i<a.len;i++){
+		d.d[i]+=a.d[i]*2%10;
+		if (a.d[i]>=5)
+			d.d[i+1]++;
+		d.len++;
+	}
+	if (d.d[d.len]!=0)
+		d.len++;
+	return d;
+}
+int main(){
+	string a;
+	cin>>a;
+	bign n;
+	int num[10]={0};
+	for (int i=1;i<=a.size();i++){
+		n.d[i-1]=a[a.size()-i]-'0';//记得字符转数字要减‘0’
+		n.len++;
+		num[n.d[i-1]]++;
+	}
+	bign s=dou(n);
+	for (int i=0;i<s.len;i++){
+		num[s.d[i]]--;
+	}
+	int flag=1;
+	for (int i=0;i<10;i++){
+		if (num[i]!=0){
+			flag=0;
+			break;
+		}
+	}
+	if (flag)
+		cout<<"Yes"<<endl;
+	else
+		cout<<"No"<<endl;
+	for (int i=1;i<=s.len;i++){
+		cout<<s.d[s.len-i];
+	}
+	return 0;
+}
