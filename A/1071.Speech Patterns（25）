@@ -1,0 +1,61 @@
+/*
+1071 Speech Patterns（25 分）
+People often have a preference among synonyms of the same word. For example, some may prefer "the police", while others may prefer "the cops". Analyzing such patterns can help to narrow down a speaker's identity, which is useful when validating, for example, whether it's still the same person behind an online avatar.
+Now given a paragraph of text sampled from someone's speech, can you find the person's most commonly used word?
+Input Specification:
+Each input file contains one test case. For each case, there is one line of text no more than 1048576 characters in length, terminated by a carriage return \n. The input contains at least one alphanumerical character, i.e., one character from the set [0-9 A-Z a-z].
+Output Specification:
+For each test case, print in one line the most commonly occurring word in the input text, followed by a space and the number of times it has occurred in the input. If there are more than one such words, print the lexicographically smallest one. The word should be printed in all lower case. Here a "word" is defined as a continuous sequence of alphanumerical characters separated by non-alphanumerical characters or the line beginning/end.
+Note that words are case insensitive.
+Sample Input:
+Can1: "Can a can can a can?  It can!"
+Sample Output:
+can 5
+*/
+
+#include<map>
+#include<string>
+#include<iostream>
+using namespace std;
+int main(){
+	map<string ,int>c;
+	string str;
+	getline(cin,str);
+	string word="";
+	for (int i=0;i<str.size();i++){
+		if(str[i]>='A'&&str[i]<='Z'){//先转化单个字符的大小写
+			str[i]+='a'-'A';
+		}
+		if ((str[i]>='a'&&str[i]<='z')||(str[i]>='0'&&str[i]<='9')){
+			word+=str[i];
+		}else{//用非字母数字的字符来分割单词
+			if (c.find(word)!=c.end()){
+				c[word]++;
+			}else{
+				c[word]=1;
+			}
+			word="";
+			while(!((str[i]>='A'&&str[i]<='Z')||(str[i]>='a'&&str[i]<='z')||(str[i]>='0'&&str[i]<='9'))&&i<str.size()){
+				i++;
+			}
+			i--;
+		}
+	}
+	if(word!=""){//假如最后一个是单词结尾，那么这个单词由于没有下一个非字母数字的字符，所以没有被map计数，要在这里补上
+		if (c.find(word)!=c.end()){
+				c[word]++;
+			}else{
+				c[word]=1;
+			}
+	}
+	int max=0;
+	string most;
+	for (map<string,int>::iterator it=c.begin();it!=c.end();it++){
+		if (it->second>max){
+			max=it->second;
+			most=it->first;
+		}
+	}
+	cout<<most<<" "<<max;
+	return 0;
+}
