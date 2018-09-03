@@ -1,0 +1,60 @@
+/*
+1138 Postorder Traversal（25 分）
+Suppose that all the keys in a binary tree are distinct positive integers. Given the preorder and inorder traversal sequences, you are supposed to output the first number of the postorder traversal sequence of the corresponding binary tree.
+Input Specification:
+Each input file contains one test case. For each case, the first line gives a positive integer N (≤ 50,000), the total number of nodes in the binary tree. The second line gives the preorder sequence and the third line gives the inorder sequence. All the numbers in a line are separated by a space.
+Output Specification:
+For each test case, print in one line the first number of the postorder traversal sequence of the corresponding binary tree.
+Sample Input:
+7
+1 2 3 4 5 6 7
+2 3 1 5 4 7 6
+Sample Output:
+3
+*/
+
+#include<cstdio>
+#include<vector>
+using namespace std;
+struct node{
+	int data;
+	node* lc;
+	node* rc;
+}nod[50010];
+int n,pre[50010],in[50010];
+node* ct(int pl,int pr,int il,int ir){
+	if (pl>pr)
+		return NULL;
+	node* root=new node;
+	root->data=pre[pl];
+	int k;
+	for (int i=il;i<=ir;i++){
+		if (in[i]==pre[pl]){
+			k=i;
+			break;
+		}
+	}
+	root->lc=ct(pl+1,k-il+pl,il,k-1);
+	root->rc=ct(k-il+pl+1,pr,k+1,ir);
+	return root;
+}
+vector<int>v;
+void pr(node* root){
+	if (root==NULL)
+		return;
+	pr(root->lc);
+	pr(root->rc);
+	v.push_back(root->data);
+}
+int main(){
+	scanf("%d",&n);
+	for (int i=0;i<n;i++){
+		scanf("%d",&pre[i]);
+	}
+	for (int i=0;i<n;i++){
+		scanf("%d",&in[i]);
+	}
+	pr(ct(0,n-1,0,n-1));
+	printf("%d",v[0]);
+	return 0;
+}
