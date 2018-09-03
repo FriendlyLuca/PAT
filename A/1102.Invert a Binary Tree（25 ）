@@ -1,0 +1,95 @@
+/*
+1102 Invert a Binary Tree（25 分）
+The following is from Max Howell @twitter:
+Google: 90% of our engineers use the software you wrote (Homebrew), but you can't invert a binary tree on a whiteboard so fuck off.
+Now it's your turn to prove that YOU CAN invert a binary tree!
+Input Specification:
+Each input file contains one test case. For each case, the first line gives a positive integer N (≤10) which is the total number of nodes in the tree -- and hence the nodes are numbered from 0 to N−1. Then N lines follow, each corresponds to a node from 0 to N−1, and gives the indices of the left and right children of the node. If the child does not exist, a - will be put at the position. Any pair of children are separated by a space.
+Output Specification:
+For each test case, print in the first line the level-order, and then in the second line the in-order traversal sequences of the inverted tree. There must be exactly one space between any adjacent numbers, and no extra space at the end of the line.
+Sample Input:
+8
+1 -
+- -
+0 -
+2 7
+- -
+- -
+5 -
+4 6
+Sample Output:
+3 7 2 6 4 0 5 1
+6 5 7 4 3 2 0 1
+*/
+
+#include<cstdio>
+#include<queue>
+#include<iostream>
+using namespace std;
+int n;
+int num=0;
+struct node{
+	int f;
+	int lc;
+	int rc;
+	node(){
+		f=-1;
+	}
+}nod[11];
+void pc(int root){//打印层序
+	if (root==-1)
+		return;
+	queue<int >q;
+	q.push(root);
+	while (!q.empty()){
+		printf("%d",q.front());
+		if (nod[q.front()].lc!=-1)//一定要设置终点，不然无限加入了
+		q.push(nod[q.front()].lc);
+		if (nod[q.front()].rc!=-1)
+		q.push(nod[q.front()].rc);
+		q.pop();
+		if (!q.empty())
+			printf(" ");
+	}
+	printf("\n");
+}
+void pi(int root){
+	if (root==-1)
+		return;
+	pi(nod[root].lc);
+	printf("%d",root);
+	num++;
+	if(num<n)
+		printf(" ");
+	pi (nod[root].rc);
+}
+int main(){
+	cin>>n;
+	char c;
+	for (int i=0;i<n;i++){
+		cin>>c;//这里要用cin而不是scanf,因为好像前面的回车会被吸进去，很麻烦
+		if (c=='-'){
+			nod[i].rc=-1;
+		}else{
+			nod[i].rc=c-'0';
+			nod[c-'0'].f=i;
+		}
+		cin>>c;
+		if (c=='-'){
+			nod[i].lc=-1;
+		}else{
+			nod[i].lc=c-'0';
+			nod[c-'0'].f=i;
+		}
+	}
+	int root;
+	for (int i=0;i<n;i++){
+		if (nod[i].f==-1){
+			root=i;
+			break;
+		}
+	}
+	pc(root);
+	pi(root);
+	return 0;
+}
