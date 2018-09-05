@@ -1,0 +1,29 @@
+#include<cstdio>
+#include<queue>
+#include<algorithm>
+using namespace std;
+struct node{
+	int data,height;
+	int lchild;
+	int rchild;
+	node(){
+		lchild=-1;
+		rchild=-1;
+	}
+	int id;
+}nod[25];
+int geh(int root){
+	if(root==-1)
+		return 0;
+	else
+		return max(geh(nod[root].lchild),geh(nod[root].rchild))+1;
+}
+void uph(int root){
+	nod[root].height=geh(root);
+}
+int geb(int root){
+	return geh(nod[root].lchild)-geh(nod[root].rchild);
+}
+void insert(int root,int x){
+	if (root=-1)
+}
