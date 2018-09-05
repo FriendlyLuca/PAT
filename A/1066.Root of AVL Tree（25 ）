@@ -1,0 +1,107 @@
+/*
+1066 Root of AVL Tree（25 分）
+An AVL tree is a self-balancing binary search tree. In an AVL tree, the heights of the two child subtrees of any node differ by at most one; if at any time they differ by more than one, rebalancing is done to restore this property. Figures 1-4 illustrate the rotation rules.
+
+ 
+
+  
+Now given a sequence of insertions, you are supposed to tell the root of the resulting AVL tree.
+
+Input Specification:
+Each input file contains one test case. For each case, the first line contains a positive integer N (≤20) which is the total number of keys to be inserted. Then N distinct integer keys are given in the next line. All the numbers in a line are separated by a space.
+Output Specification:
+For each test case, print the root of the resulting AVL tree in one line.
+Sample Input 1:
+5
+88 70 61 96 120
+Sample Output 1:
+70
+Sample Input 2:
+7
+88 70 61 96 120 90 65
+Sample Output 2:
+88
+*/
+
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+struct node{
+	int data;
+	int height;
+	node* lchild;
+	node* rchild;
+};
+int geh(node* root){
+	if (root==NULL)
+		return 0;
+	else
+		return max(geh(root->lchild),geh(root->rchild))+1;
+}
+int geb(node* root){
+	return geh(root->lchild)-geh(root->rchild);
+}
+void uph(node* root){
+	root->height=geh(root);
+}
+void l(node* &root){
+	node* temp=root->rchild;
+	root->rchild=temp->lchild;
+	temp->lchild=root;
+	uph(root);
+	uph(temp);
+	root=temp;
+}
+void r(node* &root){
+	node* temp=root->lchild;
+	root->lchild=temp->rchild;
+	temp->rchild=root;
+	uph(root);
+	uph(temp);
+	root=temp;
+}
+void insert(node* &root,int data){
+	if (root==NULL){
+		root=new node;//一定要记得new一个，不然会引起段错误
+		root->data=data;
+		root->lchild=NULL;
+		root->rchild=NULL;
+		geh(root);
+		return;
+	}
+	if (data<root->data){
+		insert(root->lchild,data);
+		uph(root);
+		if (geb(root)==2){
+			if (geb(root->lchild)==1)
+				r(root);
+			else{
+				l (root->lchild);
+				r (root);
+			}
+		}
+	}
+	else{
+		insert(root->rchild,data);
+		uph(root);
+		if (geb(root)==-2)
+			if (geb(root->rchild)==-1)
+				l(root);
+			else{
+				r(root->rchild);
+				l (root);
+			}
+	}
+}
+int main(){
+	int n;
+	scanf("%d",&n);
+	node* root=NULL;
+	for (int i=0;i<n;i++){
+		int c;
+		scanf("%d",&c);
+		insert(root,c);
+	}
+	printf("%d",root->data);
+	return 0;
+}
