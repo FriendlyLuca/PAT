@@ -1,0 +1,103 @@
+/*
+1003 Emergency（25 分）
+As an emergency rescue team leader of a city, you are given a special map of your country. The map shows several scattered cities connected by some roads. Amount of rescue teams in each city and the length of each road between any pair of cities are marked on the map. When there is an emergency call to you from some other city, your job is to lead your men to the place as quickly as possible, and at the mean time, call up as many hands on the way as possible.
+Input Specification:
+Each input file contains one test case. For each test case, the first line contains 4 positive integers: N (≤500) - the number of cities (and the cities are numbered from 0 to N−1), M - the number of roads, C
+​1
+​​ and C
+​2
+​​ - the cities that you are currently in and that you must save, respectively. The next line contains N integers, where the i-th integer is the number of rescue teams in the i-th city. Then M lines follow, each describes a road with three integers c
+​1
+​​, c
+​2
+​​ and L, which are the pair of cities connected by a road and the length of that road, respectively. It is guaranteed that there exists at least one path from C
+​1
+​​ to C
+​2
+​​.
+Output Specification:
+For each test case, print in one line two numbers: the number of different shortest paths between C
+​1
+​​ and C
+​2
+​​, and the maximum amount of rescue teams you can possibly gather. All the numbers in a line must be separated by exactly one space, and there is no extra space allowed at the end of a line.
+Sample Input:
+5 6 0 2
+1 2 1 5 3
+0 1 1
+0 2 2
+0 3 1
+1 2 1
+2 4 1
+3 4 1
+Sample Output:
+2 4
+*/
+
+
+#include<cstdio>
+#include<vector>
+#include<algorithm>
+using namespace std;
+struct node{
+	int v;
+	int dis;
+
+};
+vector <node> city[510];
+int n,m,c1,c2;
+int team[510]={0};
+int vis[510]={0};
+int num[510]={0};
+int d[510];
+int t[510]={0};
+void dj(int s){
+	fill(d,d+n,100000000);
+	d[s]=0;
+	t[s]=team[s];
+	num[s]=1;
+	for (int i=0;i<n;i++){
+		int min=100000000;
+		int u=-1;
+		for (int j=0;j<n;j++){
+			if (vis[j]==0&&d[j]<min){
+				u=j;
+				min=d[j];
+			}
+		}
+		if (u==-1)
+			return;
+		vis[u]=1;
+		for (int j=0;j<city[u].size();j++){
+			int v=city[u][j].v;
+			if (vis[v]==0&&d[v]>city[u][j].dis+d[u]){
+				d[v]=city[u][j].dis+d[u];
+				num[v]=num[u];
+				t[v]=t[u]+team[v];
+			}else if(vis[v]==0&&d[v]==city[u][j].dis+d[u]){
+				if(t[v]<t[u]+team[v])
+					t[v]=t[u]+team[v];
+				num[v]+=num[u];//每多一种方式从u到v,就要加一次从s到u的可能路径数
+			}
+		}
+	}
+}
+int main(){
+	scanf("%d %d %d %d",&n,&m,&c1,&c2);
+	for (int i=0;i<n;i++){
+		scanf("%d",&team[i]);
+	}
+	for (int i=0;i<m;i++){
+		int q,z,l;
+		scanf("%d %d %d",&q,&z,&l);
+		node temp;
+		temp.v=z;
+		temp.dis=l;
+		city[q].push_back(temp);
+		temp.v=q;
+		city[z].push_back(temp);
+	}
+	dj(c1);
+	printf("%d %d",num[c2],t[c2]);
+	return 0;
+}
