@@ -58,3 +58,38 @@ int main(){
 	}
 	return 0;
 }
+
+//考研里的方法，没有用多余数组
+#include<cstdio>
+void mov(int *a,int m,int n){
+	int tmp;
+	for (int i=0;i<(n-m)/2;i++){
+		tmp=a[i];
+		a[i]=a[n-m-1-i];
+		a[n-m-1-i]=tmp;
+	}
+	for (int i=0;i<m/2;i++){
+		tmp=a[n-m+i];
+		a[n-m+i]=a[n-1-i];
+		a[n-1-i]=tmp;
+	}
+	for (int i=0;i<n/2;i++){
+		tmp=a[i];
+		a[i]=a[n-1-i];
+		a[n-1-i]=tmp;
+	}
+}
+int main(){
+	int n,m;
+	int a[220];
+	scanf("%d %d",&n,&m);
+	for (int i=0;i<n;i++)
+		scanf("%d",&a[i]);
+	mov(a,m%n,n);
+	for (int i=0;i<n;i++){
+		printf("%d",a[i]);
+		if (i!=n-1)
+			printf(" ");
+	}
+	return 0;
+}
