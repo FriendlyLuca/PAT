@@ -59,3 +59,32 @@ int main()
 }
 
 //和答案代码比对没有发现错在哪里，但是结果是乱码。调试了好像是ans[][]根本没有输进去
+
+//用stl可获得完全正确的答案
+#include<iostream>
+#include<string>
+#include<stack>
+using namespace std;
+int main(){
+	string s;
+	getline(cin,s);
+	string word;
+	word.clear();
+	stack<string> sen;
+	for (int i=0;i<s.length();i++){
+		if (s[i]!=' '){
+			word+=s[i];
+		}else{
+			sen.push(word);
+			word.clear();
+		}
+	}
+	sen.push(word);
+	while (!sen.empty()){
+		cout<<sen.top();
+		sen.pop();
+		if (!sen.empty())
+			cout<<" ";
+	}
+	return 0;
+}
