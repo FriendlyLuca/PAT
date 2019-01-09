@@ -162,3 +162,55 @@ int main(){
 		printf("N");
 	return 0;
 }
+
+
+//又一年以后，其实那个变号加减的项的合是有可能为0的，但是上述程序会输出N，只要加个变量来统计下符合A2的个数即可
+#include<cstdio>
+int main(){
+	int n,a,j[5]={0};
+	int t=1,num=0,num2=0;
+	double av;
+	scanf("%d",&n);
+	for (int i=0;i<n;i++){
+		scanf("%d",&a);
+		if (a%10==0)
+			j[0]+=a;
+		if (a%5==1){
+			j[1]+=t*a;
+			t=-t;
+			num2++;
+		}
+		if (a%5==2)
+			j[2]++;
+		if (a%5==3){
+			j[3]+=a;
+			num++;
+		}
+		if (a%5==4){
+			if (a>j[4])
+				j[4]=a;
+		}
+	}
+	av=(double)j[3]/(double)num;
+	if (j[0]==0)
+		printf("N ");
+	else
+		printf("%d ",j[0]);
+	if (num2==0)
+		printf("N ");
+	else
+		printf("%d ",j[1]);
+	if (j[2]==0)
+		printf("N ");
+	else
+		printf("%d ",j[2]);
+	if (j[3]==0)
+		printf("N ");
+	else
+		printf("%.1lf ",av);
+	if (j[4]==0)
+		printf("N");
+	else
+		printf("%d",j[4]);
+	return 0;
+}
