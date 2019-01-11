@@ -68,3 +68,42 @@ int main(){
 	printf("%d %s %s",num,peo[max.flag].name,peo[min.flag].name);
 	
 }
+
+//one year later
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+struct stu{
+	string name;
+	int flag;
+	int date;
+}a[100010];
+bool cmp(stu a,stu b){
+	if (a.flag!=b.flag)
+		return a.flag>b.flag;
+	else
+		return a.date<b.date;
+}
+int main(){
+	int n,num=0;
+	scanf("%d",&n);
+	for (int i=0;i<n;i++){
+		cin>>a[i].name;
+		int y,m,d;		scanf("%d/%d/%d",&y,&m,&d);
+		a[i].date=y*10000+m*100+d;
+		if (a[i].date<=20140906&&a[i].date>=18140906){
+			a[i].flag=1;
+			num++;
+		}
+		else
+			a[i].flag=0;
+	}
+	sort(a,a+n,cmp);
+	printf("%d",num);
+	if (num){
+		printf(" ");//用cout會超時
+		cout<<a[0].name<<" "<<a[num-1].name;
+	}
+	return 0;
+}
