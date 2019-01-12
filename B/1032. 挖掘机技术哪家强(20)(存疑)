@@ -53,3 +53,25 @@ int main()
 }
 
 //在电脑上用vc++2010直接显示不出结果，一敲回车程序就没了。。。提交pat显示答案正确但是段错误，扣了3分。。
+
+//one year later,之前那个肯定是学校数组的范围超了，不可能只有一百个学校 
+#include<cstdio>
+int main(){
+	int a[100010]={0};
+	int n;
+	scanf("%d",&n);
+	for (int i=0;i<n;i++){
+		int b,f;
+		scanf("%d %d",&b,&f);
+		a[b]+=f;
+	}
+	int max=0,bh=0;
+	for (int i=0;i<100010;i++){
+		if (max<a[i]){
+			max=a[i];
+			bh=i;
+		}
+	}
+	printf("%d %d",bh,max);
+	return 0;
+}
