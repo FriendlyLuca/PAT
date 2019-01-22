@@ -83,3 +83,49 @@ int main(){
 	}
 	
 }
+
+//one year later
+#include<iostream>
+#include<string>
+using namespace std;
+int main(){
+	string str;
+	int a[6]={0},sum=0;
+	char c[6]={'P','A','T','e','s','t'};
+	cin>>str;
+	for (int i=0;i<str.length();i++){
+		if (str[i]=='P'){
+			a[0]++;
+			sum++;
+		}
+		if (str[i]=='A'){
+			a[1]++;
+			sum++;
+		}
+		if (str[i]=='T'){
+			a[2]++;
+			sum++;
+		}
+		if (str[i]=='e'){
+			a[3]++;
+			sum++;
+		}
+		if (str[i]=='s'){
+			a[4]++;
+			sum++;
+		}
+		if (str[i]=='t'){
+			a[5]++;
+			sum++;
+		}
+	}
+	while (sum>0)
+		for (int i=0;i<6;i++){
+			if (a[i]>0){
+				printf("%c",c[i]);
+				sum--;
+				a[i]--;
+			}
+		}
+	return 0;
+}
