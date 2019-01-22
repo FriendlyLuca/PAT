@@ -119,3 +119,33 @@ int main(){
 	}
 
 }
+
+//one year later
+#include<iostream>
+#include<string>
+using namespace std;
+struct stu{
+	string id;
+	int ks;
+}x[1010];
+int main(){
+	int n;
+	scanf("%d",&n);
+	for (int i=0;i<n;i++){
+		int j,k;
+		string h;
+		cin>>h;
+		scanf("%d %d",&j,&k);
+		x[j].id=h;
+		x[j].ks=k;
+	}
+	int m;
+	scanf("%d",&m);
+	for (int i=0;i<m;i++){
+		int j;
+		scanf("%d",&j);
+		cout<<x[j].id;
+		printf(" %d\n",x[j].ks);
+	}
+	return 0;
+}
