@@ -71,3 +71,40 @@ int main()
 }
 
 //答案总是错一个。。。检查不出来了。。。
+
+//因为给的两个分数可能前大后小，要交换一下，one year later
+#include<cstdio>
+int gys(int a,int b){
+	if (b>a){
+		a=a+b;
+		b=a-b;
+		a=a-b;
+	}
+	if (b==0)
+		return a;
+	else
+		return gys(b,a%b);
+}
+int main(){
+	int z1,z2,m1,m2,n;
+	scanf("%d/%d %d/%d %d",&z1,&m1,&z2,&m2,&n);
+	if (z1*m2>z2*m1){
+		int z3,m3;
+		z3=z1;
+		m3=m1;
+		z1=z2;
+		m1=m2;
+		z2=z3;
+		m1=m3;
+	}
+	int f=0;
+	for (int i=(double)z1/m1*n+1;i*m2<z2*n;i++){
+		if (gys(i,n)==1){
+			if (f)
+				printf(" ");
+			printf("%d/%d",i,n);
+			f=1;
+		}
+	}
+	return 0;
+}
