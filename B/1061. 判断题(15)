@@ -83,3 +83,30 @@ int main(){
 	}
 	return 0;
 }
+
+//one year later
+
+#include<cstdio>
+int main(){
+	int n,m;
+	int d[110]={0};
+	int f[110]={0};
+	scanf("%d %d",&n,&m);
+	for (int i=0;i<m;i++){
+		scanf("%d",&f[i]);
+	}
+	for (int i=0;i<m;i++){
+		scanf("%d",&d[i]);
+	}
+	for (int i=0;i<n;i++){
+		int sum=0;
+		for (int j=0;j<m;j++){
+			int t;
+			scanf("%d",&t);
+			if (t==d[j])
+				sum+=f[j];
+		}
+		printf("%d\n",sum);
+	}
+	return 0;
+}
