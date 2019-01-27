@@ -56,3 +56,31 @@ int main(){
 	}
 	printf("%d %d",num,max);
 }
+
+//one year later
+#include<cstdio>
+#include<algorithm>
+using namespace std;
+struct d{
+	int cj;
+	int id;
+	d(int _cj=0){
+		cj=_cj;
+	}
+}a[1010];
+bool cmp(d a,d b){
+	return a.cj>b.cj;
+}
+int main(){
+	int n;
+	scanf("%d",&n);
+	for (int i=0;i<n;i++){
+		int dh,bh,gr;
+		scanf("%d-%d %d",&dh,&bh,&gr);
+		a[dh].cj+=gr;
+		a[dh].id=dh;
+	}
+	sort (a,a+1010,cmp);
+	printf("%d %d",a[0].id,a[0].cj);
+	return 0;
+}
