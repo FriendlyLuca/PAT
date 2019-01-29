@@ -43,3 +43,21 @@ int main()
 }
 
 //不知道为什么总是有两个测试点显示结果错误。。。一直没找到错误在哪里。。。
+
+//one year later
+#include<cstdio>
+#include<math.h>
+int main(){
+	double r1,p1,r2,p2;
+	scanf("%lf %lf %lf %lf",&r1,&p1,&r2,&p2);
+	double a=r1*r2*cos(p1+p2),b=r1*r2*sin(p1+p2);
+	if (a<0.01&&a>-0.01)
+		a=0;
+	printf("%.2lf",a);
+	if (b<0.01&&b>-0.01)//比如-0.0001i应该显示成+0.00i，a也如此，这个就是之前不过的原因
+		b=0;
+	if (b>=0)
+		printf("+");
+	printf("%.2lfi",b);
+	return 0;
+}
