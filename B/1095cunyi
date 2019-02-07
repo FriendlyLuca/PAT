@@ -1,0 +1,103 @@
+#include<iostream>
+#include<cstdio>
+#include<string>
+#include<algorithm>
+using namespace std;
+struct stu{
+	string id;
+	char jb;
+	int kc,rq,ks,cj;
+}a[10010];
+struct jiaoshi{
+	int renshu;
+	int bianhao;
+	jiaoshi(int _renshu=0){
+		renshu=_renshu;
+	}
+}b[1000];
+bool cmp1(stu a,stu b){
+	if (a.cj!=b.cj)
+		return a.cj>b.cj;
+	else
+		return a.id<b.id;
+}
+bool cmp3(jiaoshi a,jiaoshi b){
+	if (a.renshu!=b.renshu)
+		return a.renshu>b.renshu;
+	else
+		return a.bianhao<b.bianhao;
+}
+int main(){
+	int n,m,fs;
+	string s;
+	scanf("%d %d",&n,&m);
+	for (int i=0;i<n;i++){
+		cin>>s>>fs;
+		a[i].id=s;
+		a[i].cj=fs;
+		a[i].jb=s[0];
+		a[i].kc=100*(s[1]-'0')+10*(s[2]-'0')+(s[3]-'0');
+		a[i].rq=100000*(s[4]-'0')+10000*(s[5]-'0')+1000*(s[6]-'0')+100*(s[7]-'0')+10*(s[8]-'0')+(s[9]-'0');
+		a[i].ks=100*(s[10]-'0')+10*(s[11]-'0')+(s[12]-'0');
+	}
+	for (int i=1;i<=m;i++){
+		int no;
+		int flag=0;
+		scanf("%d ",&no);
+		if (no==1){
+			char jib;
+			scanf("%c",&jib);
+			printf("Case %d: %d %c\n",i,no,jib);
+			sort(a,a+n,cmp1);
+			for (int j=0;j<n;j++){
+				if (a[j].jb==jib){
+					flag=1;
+					cout<<a[j].id;
+					printf(" %d\n",a[j].cj);
+				}
+			}
+			if (flag==0)
+				printf("NA\n");
+
+		}
+		if (no==2){
+			int kaoc;
+			scanf("%d",&kaoc);
+			printf("Case %d: %d %d\n",i,no,kaoc);
+			int rn=0,fn=0;
+			if (kaoc>100&&kaoc<1000)
+				for (int j=0;j<n;j++){
+					if (a[j].kc==kaoc){
+						rn++;
+						fn+=a[j].cj;
+					}
+				}
+			if (rn==0)
+				printf("NA\n");
+			else
+				printf("%d %d\n",rn,fn);
+		}
+		if (no==3){
+			int riqi;
+			scanf("%d",&riqi);
+			printf("Case %d: %d %d\n",i,no,riqi);
+			for (int j=0;j<n;j++){
+				if (riqi==a[j].rq){
+					flag=1;
+					b[a[j].kc].bianhao=a[j].kc;
+					b[a[j].kc].renshu++;
+				}
+			}
+			sort(b,b+1000,cmp3);
+			if (flag){
+				for (int j=0;b[j].renshu>0;j++){
+					printf("%d %d\n",b[j].bianhao,b[j].renshu);
+				}
+			}else
+				printf("NA\n");
+
+		}
+		
+	}
+	return 0;
+}
