@@ -52,3 +52,31 @@ int main(){
 	printf("%s %s",stri.c_str(),stro.c_str());
 return 0;
 }
+
+//half year later
+#include<cstdio>
+#include<iostream>
+#include<string>
+using namespace std;
+int main(){
+	int n,in=999999,out=0;
+	string iid,oid;
+	scanf("%d",&n);
+	for (int i=0;i<n;i++){
+		string name;
+		cin>>name;
+		int h,m,s;
+		scanf("%d:%d:%d",&h,&m,&s);
+		if (in>h*10000+m*100+s){
+			iid=name;
+			in=h*10000+m*100+s;
+		}
+		scanf("%d:%d:%d",&h,&m,&s);
+		if (out<h*10000+m*100+s){
+			oid=name;
+			out=h*10000+m*100+s;
+		}
+	}
+	cout<<iid<<" "<<oid;
+	return 0;
+}
