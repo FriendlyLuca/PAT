@@ -57,3 +57,63 @@ int main(){
 	}
 	return 0;
 }
+
+//half year later
+#include<iostream>
+#include<queue>
+#include<string>
+using namespace std;
+int main(){
+	string str;
+	queue<char> q;
+	cin>>str;
+	if (str[0]=='-')
+		printf("-");
+	q.push(str[1]);
+	int i=3;
+	for (;str[i]!='E';i++){
+		q.push(str[i]);
+	}
+	int flag=0;
+	i++;
+	if (str[i]=='+')
+		flag=1;
+	i++;
+	int bs=0;
+	while(i<str.size()){
+		bs=bs*10+str[i]-'0';
+		i++;
+	}
+	if (flag==0){
+		for (int j=0;j<bs;j++){
+			printf("0");
+			if (j==0)
+				printf(".");
+		}
+		while (!q.empty()){
+			printf("%c",q.front());
+			q.pop();
+		}
+	}else{
+		int kt=0;
+		int cz=bs+1-q.size();
+		for (int j=0;j<=bs&&q.size()>0;j++){
+			if (q.front()!='0'){
+				kt=1;
+			}
+			if (kt==1){
+				printf("%c",q.front());
+			}
+			q.pop();
+		}
+		if (!q.empty())
+			printf(".");
+		while(!q.empty()){
+			printf("%c",q.front());
+			q.pop();
+		}
+		for (int j=0;j<cz;j++)
+			printf("0");
+	}
+	return 0;
+}
