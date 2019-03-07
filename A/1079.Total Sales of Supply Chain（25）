@@ -98,3 +98,60 @@ int main(){
 	pr (n);
 	return 0;
 }
+
+//half year later
+#include<cstdio>
+#include<vector>
+using namespace std;
+struct node{
+	vector <int> ch;
+	double d;
+	int re;
+}a[100010];
+double r;
+void dfs(int root,double b){
+	a[root].d=b;
+	if (a[root].ch.size()==0)
+		return;
+	for (int i=0;i<a[root].ch.size();i++){
+		dfs(a[root].ch[i],b*(0.01*r+1));
+	}
+}
+int main(){
+	int n;
+	int root;
+	int ischild[100010]={0};
+	double p;
+	scanf("%d %lf %lf",&n,&p,&r);
+	for (int i=0;i<n;i++){
+		int x;
+		scanf("%d",&x);
+		if (x==0){
+			scanf("%d",&a[i].re);
+		}else{
+			a[i].re=0;
+			for (int j=0;j<x;j++){
+				int c;
+				scanf("%d",&c);
+				ischild[c]=1;
+				a[i].ch.push_back(c);
+			}
+		}
+	}
+	for (int i=0;i<n;i++){
+		if (ischild[i]==0){
+			root=i;
+			break;
+		}
+	}
+	dfs(root,1);
+	double sum=0;
+	for (int i=0;i<n;i++){
+		if (a[i].re!=0){
+			double m=p*a[i].re*a[i].d;
+			sum+=m;
+		}
+	}
+	printf("%.1lf",sum);
+	return 0;
+}
