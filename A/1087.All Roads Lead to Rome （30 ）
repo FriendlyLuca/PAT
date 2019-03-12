@@ -1,0 +1,144 @@
+/*
+1087 All Roads Lead to Rome （30 分）
+Indeed there are many different tourist routes from our city to Rome. You are supposed to find your clients the route with the least cost while gaining the most happiness.
+Input Specification:
+Each input file contains one test case. For each case, the first line contains 2 positive integers N (2≤N≤200), the number of cities, and K, the total number of routes between pairs of cities; followed by the name of the starting city. The next N−1 lines each gives the name of a city and an integer that represents the happiness one can gain from that city, except the starting city. Then K lines follow, each describes a route between two cities in the format City1 City2 Cost. Here the name of a city is a string of 3 capital English letters, and the destination is always ROM which represents Rome.
+Output Specification:
+For each test case, we are supposed to find the route with the least cost. If such a route is not unique, the one with the maximum happiness will be recommanded. If such a route is still not unique, then we output the one with the maximum average happiness -- it is guaranteed by the judge that such a solution exists and is unique.
+Hence in the first line of output, you must print 4 numbers: the number of different routes with the least cost, the cost, the happiness, and the average happiness (take the integer part only) of the recommanded route. Then in the next line, you are supposed to print the route in the format City1->City2->...->ROM.
+Sample Input:
+6 7 HZH
+ROM 100
+PKN 40
+GDN 55
+PRS 95
+BLN 80
+ROM GDN 1
+BLN ROM 1
+HZH PKN 1
+PRS ROM 2
+BLN HZH 2
+PKN GDN 1
+HZH PRS 1
+Sample Output:
+3 3 195 97
+HZH->PRS->ROM
+*/
+
+#include<iostream>
+#include<cstdio>
+#include<vector>
+#include<map>
+#include<string>
+#include<algorithm>
+using namespace std;
+struct node{
+	int v;
+	int dis;
+};
+map<string,int>cton;
+vector<string>ntoc;
+vector<node>adj[210];
+int hap[210]={0};
+int n,m;
+int vis[210]={0};
+int dis[210];
+int num[210]={0};
+vector<int> pre[210];
+void dj(int s){
+	fill(dis,dis+210,100000000);
+	dis[s]=0;
+	for (int i=0;i<n;i++){
+		int u=-1;
+		int min=100000000;
+		for (int j=0;j<n;j++){
+			if (vis[j]==0&&min>dis[j]){
+				u=j;
+				min=dis[j];
+			}
+		}
+		if (u==-1)
+			return;
+		vis[u]=1;
+		for (int j=0;j<adj[u].size();j++){
+			int v=adj[u][j].v;
+			if (vis[v]==0){
+				if (dis[v]>dis[u]+adj[u][j].dis){
+					dis[v]=dis[u]+adj[u][j].dis;
+					pre[v].clear();
+					pre[v].push_back(u);
+				}else if(dis[v]==dis[u]+adj[u][j].dis){
+					pre[v].push_back(u);
+				}
+			}
+		}
+	}
+}
+vector<int>path,tpath;
+int maxw=0,pn=0;
+double amaxw=0;
+void dfs(int v){
+	if (v==0){
+		tpath.push_back(v);
+		int tsum=0;
+		pn++;
+		for (int i=0;i<tpath.size();i++){
+			tsum+=hap[tpath[i]];
+		}
+		double av=(double)tsum/(tpath.size()-1);//happy的平均值要不算起点
+		if (maxw<tsum){
+			path=tpath;
+			maxw=tsum;
+			amaxw=av;
+		}else if(maxw==tsum&&amaxw<av){
+			path=tpath;
+			amaxw=av;
+		}
+		tpath.pop_back();
+		return;
+	}
+	tpath.push_back(v);
+	for(int i=0;i<pre[v].size();i++){
+		dfs(pre[v][i]);
+	}
+	tpath.pop_back();
+}
+int main(){
+	scanf("%d %d",&n,&m);
+	string st;
+	cin>>st;
+	cton[st]=0;
+	ntoc.push_back(st);
+	for (int i=1;i<n;i++){
+		string ct;
+		int h;
+		cin>>ct>>h;
+		cton[ct]=i;
+		ntoc.push_back(ct);
+		hap[i]=h;
+	}
+	for (int i=0;i<m;i++){
+		string c1,c2;
+		int d;
+		cin>>c1>>c2>>d;
+		node a,b;
+		a.dis=d;
+		b.dis=d;
+		int x1=cton[c1];
+		int x2=cton[c2];
+		a.v=x2;
+		b.v=x1;
+		adj[x1].push_back(a);
+		adj[x2].push_back(b);
+	}
+	dj(0);
+	dfs(cton["ROM"]);
+	printf("%d %d %d %d\n",pn,dis[cton["ROM"]],maxw,(int)amaxw);
+	for (int i=0;i<path.size();i++){
+		int k=path[path.size()-1-i];
+		if (i)
+			printf("->");
+		cout<<ntoc[k];
+	}
+	return 0;
+}
